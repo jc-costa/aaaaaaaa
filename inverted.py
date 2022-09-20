@@ -28,23 +28,16 @@ def create_csv(json_file, keys):
 for filename, filepath in zip(filenames, filelist):
     try:
         with open(filepath, encoding='utf-8') as info_json:
-            dados = json.load(info_json)
-            create_csv(filepath, five_keys)
+            data = json.load(info_json)
+            create_csv(data, five_keys)
     except:
         pass
 
-#excract the values of the keys from the json file
-def extract_values(json_file, keys):
-    with open(json_file, 'r') as f:
-        data = json.load(f)
-    return [data[key] for key in keys]
+#creating a csv with five keys in which the keys are columns and the values are rows
+#using five keys to create a csv file from json file
+#
 
-#path to the folder
-#path = pl.Path.home() / "Desktop/Projeto-Recuperacao-de-Informacao/extractor/results"
-
-#list of files in the folder
-files = os.listdir(path)
-
+#rename the keys in json file
 def rename_key(json_file, key, new_key):  
     with open(json_file, 'r') as f:
         #load the json file
@@ -54,22 +47,8 @@ def rename_key(json_file, key, new_key):
     with open(json_file, 'w') as f:
         #dump the json file
         json.dump(data, f, indent=4)
-
-''' #loop through the files
-for file in files:
-    #open the file
-    with open(path / file, "r") as f:
-        #load the json file
-        data = json.load(f)
-        #print the data
-        try:
-            data = rename_key(path / file, "memoria ram:", "memoria:")
-        except:
-            pass
-        #print(data)  '''
         
 five_keys = ["marca", "modelo", "sistema operacional", "processador", "cor"]
 
-#create a csv file from the json file in which the keys are the columns and the values are the rows
 
 
