@@ -18,8 +18,8 @@ def create_csv(json_file, keys):
     with open(json_file, 'r') as f:
         data = json.load(f)
     #create a csv file
-    with open('csv_teste.csv', 'w') as csv_file:
-        writer = csv.writer('csv_teste.csv')
+    with open('csv_file1.csv', 'w') as csv_file:
+        writer = csv.writer(csv_file)
         #write the keys
         writer.writerow(keys)
         #write the values in the csv file
@@ -29,7 +29,7 @@ for filename, filepath in zip(filenames, filelist):
     try:
         with open(filepath, encoding='utf-8') as info_json:
             dados = json.load(info_json)
-            create_csv(dados, five_keys)
+            create_csv(filepath, five_keys)
     except:
         pass
 
