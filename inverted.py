@@ -202,3 +202,37 @@ def retrive_term_from_binary_file(term):
                     #return the value
                     return value2
     f.close()
+
+    
+def retrive_term_from_binary_file3(term):
+    #open the binary file
+    with open('inverted_index_dic_vbe.bin', 'rb') as f:
+        #read the length of the dictionary
+        length = int.from_bytes(f.read(4), byteorder='big')
+        #iterate over the length of the dictionary
+        for i in range(length):
+            #read the length of the key
+            length_key = int.from_bytes(f.read(4), byteorder='big')
+            #read the key
+            key = f.read(length_key).decode('utf-8')
+            #read the length of the value
+            length_value = int.from_bytes(f.read(4), byteorder='big')
+            #iterate over the length of the value
+            for j in range(length_value):
+                #read the length of the key
+                length_key2 = int.from_bytes(f.read(4), byteorder='big')
+                #read the key
+                key2 = f.read(length_key2).decode('utf-8')
+                #read the length of the value
+                length_value2 = int.from_bytes(f.read(4), byteorder='big')
+                #read the value
+                value2 = f.read(length_value2).decode('utf-8')
+                #if the key is equal to the term
+                if key == term:
+                    #return the value
+                    return {key2: value2}
+    f.close()
+
+teste = retrive_term_from_binary_file3('intel_processador')
+print(teste)
+
