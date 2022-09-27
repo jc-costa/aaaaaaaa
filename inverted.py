@@ -211,31 +211,14 @@ query_vbe = load_dictionary_vbe()
 
 ##print(query_vbe)
 
-''' #given a key and a dictionary, return a list with the key and the value
-def get_key_value(key, dictionary):
-    #create a list
-    list_key_value = []
+#given a dictionary and a key, return the key and the value
+def get_key_value(dictionary, key):
     #iterate over the dictionary
     for key2, value2 in dictionary.items():
-        #if the key is equal to the key in the dictionary
-        if key == key2:
-            #add the key and the value in the list
-            list_key_value.append(key2)
-            list_key_value.append(value2)
-    #return the list
-    return list_key_value
+        #if the key is in the dictionary
+        if key in key2:
+            #return the key and the value
+            return key2, value2
 
-teste = get_key_value('ate_processador', query_vbe)
-print(teste) '''
-
-#given a key and a dictionary, return the value
-def get_value(key, dictionary):
-    #iterate over the dictionary
-    for key2, value2 in dictionary.items():
-        #if the key is equal to the key in the dictionary
-        if key == key2:
-            #return the value
-            return value2
-
-teste = get_value('ate_processador', query_vbe)
+teste = get_key_value(query_vbe, 'ideapad_modelo')
 print(teste)
