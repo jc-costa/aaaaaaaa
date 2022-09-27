@@ -173,12 +173,14 @@ def compress_dictionary_vbe(dictionary):
 
 compress_dictionary_vbe(inverted_index)
 
-#retrive a term from a binary file 
-def retrive_term_from_binary_file(term):
+#load a dictionary from a binary file encoded with variable byte encoding
+def load_dictionary_vbe():
     #open the binary file
     with open('inverted_index_dic_vbe.bin', 'rb') as f:
         #read the length of the dictionary
         length = int.from_bytes(f.read(4), byteorder='big')
+        #create a dictionary
+        dictionary = {}
         #iterate over the length of the dictionary
         for i in range(length):
             #read the length of the key
@@ -187,6 +189,8 @@ def retrive_term_from_binary_file(term):
             key = f.read(length_key).decode('utf-8')
             #read the length of the value
             length_value = int.from_bytes(f.read(4), byteorder='big')
+            #create a dictionary
+            dictionary[key] = {}
             #iterate over the length of the value
             for j in range(length_value):
                 #read the length of the key
@@ -197,42 +201,41 @@ def retrive_term_from_binary_file(term):
                 length_value2 = int.from_bytes(f.read(4), byteorder='big')
                 #read the value
                 value2 = f.read(length_value2).decode('utf-8')
-                #if the key is equal to the term
-                if key == term:
-                    #return the value
-                    return value2
+                #add the key and value in the dictionary
+                dictionary[key][key2] = value2
     f.close()
+    #return the dictionary
+    return dictionary
 
-    
-def retrive_term_from_binary_file3(term):
-    #open the binary file
-    with open('inverted_index_dic_vbe.bin', 'rb') as f:
-        #read the length of the dictionary
-        length = int.from_bytes(f.read(4), byteorder='big')
-        #iterate over the length of the dictionary
-        for i in range(length):
-            #read the length of the key
-            length_key = int.from_bytes(f.read(4), byteorder='big')
-            #read the key
-            key = f.read(length_key).decode('utf-8')
-            #read the length of the value
-            length_value = int.from_bytes(f.read(4), byteorder='big')
-            #iterate over the length of the value
-            for j in range(length_value):
-                #read the length of the key
-                length_key2 = int.from_bytes(f.read(4), byteorder='big')
-                #read the key
-                key2 = f.read(length_key2).decode('utf-8')
-                #read the length of the value
-                length_value2 = int.from_bytes(f.read(4), byteorder='big')
-                #read the value
-                value2 = f.read(length_value2).decode('utf-8')
-                #if the key is equal to the term
-                if key == term:
-                    #return the value
-                    return {key2: value2}
-    f.close()
+query_vbe = load_dictionary_vbe()
 
-teste = retrive_term_from_binary_file3('intel_processador')
+##print(query_vbe)
+
+''' #given a key and a dictionary, return a list with the key and the value
+def get_key_value(key, dictionary):
+    #create a list
+    list_key_value = []
+    #iterate over the dictionary
+    for key2, value2 in dictionary.items():
+        #if the key is equal to the key in the dictionary
+        if key == key2:
+            #add the key and the value in the list
+            list_key_value.append(key2)
+            list_key_value.append(value2)
+    #return the list
+    return list_key_value
+
+teste = get_key_value('ate_processador', query_vbe)
+print(teste) '''
+
+#given a key and a dictionary, return the value
+def get_value(key, dictionary):
+    #iterate over the dictionary
+    for key2, value2 in dictionary.items():
+        #if the key is equal to the key in the dictionary
+        if key == key2:
+            #return the value
+            return value2
+
+teste = get_value('ate_processador', query_vbe)
 print(teste)
-
